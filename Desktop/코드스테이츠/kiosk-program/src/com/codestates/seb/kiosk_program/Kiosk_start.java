@@ -1,5 +1,5 @@
 package com.codestates.seb.kiosk_program;
-
+import com.codestates.seb.kiosk_program.Kiosk_Program;
 
 
 public class Kiosk_start {
