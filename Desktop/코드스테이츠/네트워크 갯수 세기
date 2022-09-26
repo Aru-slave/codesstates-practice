@@ -1,0 +1,52 @@
+public class Solution { 
+public int connectedVertices(int[][] edges) {
+        //시작지점과 종료시점이 담긴 배열로 인접행렬 구하기.
+        int max = 0;
+        for (int i = 0; i < edges.length; i++) {
+            for (int j = 0; j < edges[0].length; j++) {
+                if (max < edges[i][j])
+                    max = edges[i][j];
+            }
+        }
+        int[][] adjArray = new int[max + 1][max + 1];
+
+        for(int i = 0; i < edges.length; i++) {
+            int from = edges[i][0];
+            int to = edges[i][1];
+            adjArray[from][to] = 1;
+            adjArray[to][from] = 1;
+        }
+
+        boolean[] visited = new boolean[max + 1];
+        int count = 0;
+        for (int i = 0; i < adjArray.length; i++) {
+        //이미 방문한 노드라면 넘어간다.
+            if (visited[i]) continue;
+            //방문한 노드가 아니라면 카운트
+            count++;
+            //방문한 노드와 연결된 노드는 bfs함수로 탐색
+            visited = bfs(adjArray, visited, i);
+        }
+
+        return count;
+
+    }
+
+    public boolean[] bfs(int[][] maxtrix, boolean[] isVisited, int node) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(node);
+        while (!queue.isEmpty()) {
+            int now = queue.poll();
+            //현재 노드는 방문한 노드로  true 반환
+            isVisited[now] = true;
+            for (int i = 0; i < maxtrix[0].length; i++) {
+                if (isVisited[i]) continue;
+                //방문한 노드와 연결된 간선이 있으면 큐에 다시 넣어주고 루프가 돌아간다. 
+                if (maxtrix[now][i] == 1) queue.add(i);
+            }
+        }
+        return isVisited;
+
+
+    }
+}
