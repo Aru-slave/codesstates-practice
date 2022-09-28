@@ -1,0 +1,39 @@
+package com.codestates.coplit; 
+import java.util.*;
+
+public class Solution { 
+	public int movingStuff(int[] stuff, int limit) {
+    // TODO:주어지 무게가 담긴 배열을 정렬한다. 
+		Arrays.sort(stuff);
+		//링크드 리스트에 추가한다.
+		List<Integer> list = new LinkedList<>();
+    for(int i = 0; i < stuff.length; i++) 
+    list.add(stuff[i]);
+		//0번째 인덱스가 가장 가볍고 리스트의 사이즈 인덱스가 가장 무겁다.
+		//0번째 인덱스와 마지막 인덱스부터 순차적으로 줄여가면서 limit에 넘지 않게 추가한다.
+    //리스트가 빌 때까지 루프를 반복한다.
+    int count = 0;
+    while(!list.isEmpty()){
+      for(int i = list.size() - 1; i > 0; i--){
+        //가장 가벼운 인덱스와 가장 무거운거부터 체크
+        //i가 0까지 작아졌다는 것은 인덱스 0번과 같이 들어갈 짐이 없다는 뜻이므로 0번째를 제거
+        if(i == 0){
+          list.remove(0);
+          count++;
+          break;
+        }
+        if(list.get(0) + list.get(i) <= limit){
+          //limit보다 작으면 두 수를 리스트에서 제거하고 카운트
+          list.remove(0);
+          list.remove(i - 1);
+          count++;
+        }
+      }
+      count = count + list.size();
+      list.clear();
+    }
+    return count;
+		
+
+	} 
+}
