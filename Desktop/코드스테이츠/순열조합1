@@ -1,0 +1,54 @@
+
+package com.codestates.coplit; 
+import java.util.*;
+
+public class Solution { 
+    public ArrayList<Integer[]> newChickenRecipe(int[] stuffArr, int choiceNum) {
+    // TODO:
+    //N가지 재료 중에 단 M가지만 사용 -> 순서가 다르면 다른 레시피이니 순열
+    ArrayList<Integer[]> result = new ArrayList<Integer[]>(); //결과를 저장할 곳
+    ArrayList<Integer> arr = new ArrayList<Integer>(); //0이 3개 이상인 것을 제한 것을 저장
+
+    for(int i : stuffArr){
+      if((countChar(String.valueOf(i), '0')<3)){
+        arr.add(i); //상하지 않은 것만 저장
+      }
+    }
+    Collections.sort(arr); //재료들 오름차순 정렬
+    boolean [] isVisited = new boolean[arr.size()];
+
+        //사용할 수 있는 재료가 없거나, 재료의 양보다 사용해야 할 갯수가 더 많은 경우 null을 반환
+    if (arr.size() == 0 || arr.size() < choiceNum) return null;
+
+    //재귀를 사용하여 경우의 수를 다 result에 저장한다.
+    //재귀는 choiceNum만큼 반복 -> 배열 값을 리턴받아 그 리턴값을 result에 add 한다.
+
+    return makinglist(arr, choiceNum, result, new Integer[]{},isVisited, 0);
+    } 
+  public ArrayList<Integer[]>makinglist(ArrayList<Integer> arr, int choiceNum, ArrayList<Integer[]> result, Integer [] sublist,boolean []isVisited,int depth){
+    if(depth == choiceNum) {
+      result.add(sublist);
+      return result;
+      }
+      for(int i = 0 ; i < arr.size() ; i++){
+        if(isVisited[i]) continue;
+        else {
+          Integer [] sublist2 = Arrays.copyOf(sublist,sublist.length+1);
+          sublist2[sublist2.length-1] = arr.get(i);
+          isVisited[i] = true;
+          result = makinglist(arr,choiceNum,result,sublist2,isVisited,depth+1);
+          isVisited[i] = false;
+        }
+      }
+      return result;
+  }
+  public int countChar(String str, char ch){
+    int count = 0;
+    for(int i = 0 ; i < str.length() ; i++){
+      if(str.charAt(i)==ch){
+        count++;
+      }
+    }
+    return count;
+  }
+}
