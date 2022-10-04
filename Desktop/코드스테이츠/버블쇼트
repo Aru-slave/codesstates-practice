@@ -19,6 +19,7 @@ public class Solution {
          for(int i = 0; i < arrLength - 1; i++) {
        //매 반복(iteration)마다 i번째로 큰 수가 마지막에서 i번째 위치하게 된다.
        //이미 정렬된 요소는 고려할 필요가 없으므로, 'j < N - 1 - i'만 비교하면 된다.
+       //바깥 쪽 포문은 n 안쪽 포문은 1/2분의 n임으로 시간 복잡도는 기존의 n^2에서 0.5*n^2으로 줄어드는 것을 알 수 있다. 
       for(int j = 0; j < arrLength - 1 - i; j++) {
         if(arr[j] > arr[j + 1]) {
           arr = swap(j, j+1, arr);
