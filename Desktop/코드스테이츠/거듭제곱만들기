@@ -1,0 +1,31 @@
+public class Solution { 
+// 	public long power(int base, int exponent) {
+//     // TODO:
+//   if(exponent == 0) return 1;
+//   int half = exponent / 2;
+//   long temp = power(base, half);
+
+//   if(exponent % 2 == 0) return (power(base, half)*power(base, half)) % 94906249;
+//   else return ((power(base, half)*power(base, half))* base) % 94906249;
+
+// 	} 
+// }
+
+//위와 같이 코드를 짠다면 power라는 함수를 재귀호출을 무려 4번이나 하게 된다. 
+
+//따라서 재귀 되는 부분을 변수에 저장을 하고 계산을 해주어야 한다. 
+
+public class Solution { 
+	public long power(int base, int exponent) {
+    // TODO:
+  if(exponent == 0) return 1;
+  int half = exponent / 2;
+  long temp = power(base, half);
+
+  if(exponent % 2 == 0) return (temp*temp) % 94906249;
+  else return (temp*temp*base) % 94906249;
+
+	} 
+}
+
+//이렇게 코드를 짜게 되면 입력 받은 exponent의 절반씩 줄어들게 되여 시간 복잡도는 log n 이 되게 된다. 
