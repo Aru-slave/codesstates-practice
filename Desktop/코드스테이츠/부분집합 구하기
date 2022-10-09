@@ -1,0 +1,24 @@
+ public static ArrayList<String> powerSet(String str) {
+        // TODO:
+        ArrayList<String> list = new ArrayList<>();
+        Set<Character> set = new HashSet<>();
+        for(int i = 0; i < str.length(); i++){//입력 받은 문자열 중복 제거
+            set.add(str.charAt(i));
+        }
+        String str1 = "";
+        for(char c : set){ //정렬하기 위해서 배열로 변환
+             str1 = str1 + c;
+        }
+        char c[] = str1.toCharArray();//배열 상태에서 정렬
+        Arrays.sort(c);
+        list.add("");//공집합부터 집어넣음
+        System.out.println(list);
+        for(int i = 0; i < c.length; i++){
+            int num = list.size();
+            for(int j = 0; j < num; j++) {
+                list.add(list.get(j) + c[i]);//이전에 집어 넣은 부분집합에 다음 들어갈 요소를 더해서 리스트에 넣어줌
+            }
+        }
+        Collections.sort(list);//넣어준 리스트를 한번더 정렬.
+        return list;
+    }
