@@ -1,0 +1,75 @@
+    public static void main(String[] args) {
+        int[][] room = new int[][]{
+                {0, 0, 0, 0, 0, 0},
+                {0, 1, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0, 0},
+                {0, 0, 1, 1, 1, 0},
+                {1, 0, 0, 0, 0, 0}
+        };
+        int[] src = new int[]{4, 2};//y좌표 x좌표 출발
+        int[] dst = new int[]{2, 2};//도착
+        System.out.println(robotPath(room, src, dst));
+    }
+
+    public static int robotPath(int[][] room, int[] src, int[] dst) {
+        // TODO :
+        int x = src[1];
+        int y = src[0];
+        return path(room, dst, x, y, 0);
+    }
+
+    public static int path(int[][] room, int[] dst, int x, int y, int count) {
+        Queue<Integer> qx = new LinkedList<>();
+        Queue<Integer> qy = new LinkedList<>();
+        Queue<Integer> qc = new LinkedList<>();
+        qx.add(x);
+        qy.add(y);
+        qc.add(0);
+        boolean[][] isVisited = new boolean[room.length][room[0].length];
+        while (!qy.isEmpty()) {// 한 지점에서 갈 수 있는 상하좌우 체크, 동시에 나아가므로 똑같이 큐에 넣어서 계산해준다.
+            int cx = qx.poll();
+            int cy = qy.poll();
+            int cc = qc.poll();
+            room[cy][cx] = 1;
+            if (cy == dst[0] && cx == dst[1]) {
+                return cc;
+            }
+            //상
+            if (check(room, cx, cy + 1)) {
+                qy.add(cy + 1);
+                qx.add(cx);
+                qc.add(cc + 1); 
+
+            }
+            //하
+            if (check(room, cx, cy - 1)) {
+                qy.add(cy - 1);
+                qx.add(cx);
+                qc.add(cc + 1);
+
+            }
+            //좌
+            if (check(room, cx - 1, cy)) {
+                qy.add(cy);
+                qx.add(cx - 1);
+                qc.add(cc + 1);
+
+            }
+            //우
+            if (check(room, cx + 1, cy)) {
+                qy.add(cy);
+                qx.add(cx + 1);
+                qc.add(cc + 1);
+
+            }
+        }
+        return 0;
+    }
+
+    public static boolean check(int[][] room, int x, int y) { //체크
+        if (x < 0 || x > room[0].length - 1 || y < 0 || y > room.length - 1)
+            return false;
+        if (room[y][x] == 1) return false;
+
+        return true;
+    }
