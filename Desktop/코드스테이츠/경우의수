@@ -1,0 +1,39 @@
+package com.codestates.coplit; 
+import java.util.*;
+
+public class Solution { 
+    public static int orderOfPresentation(int N, int[] K) {
+        // TODO:N개로 이루어진 배열 중 int[]안의 순서는 몇번 째 인지 리턴
+        // 123 -> 132 -> 213 - > 231 -> 312 -> 321
+        // 총 경우의 수는 N!
+        // N = 3 일때 int[]의 첫번 째 숫자가 몇번 째냐에 따라
+        //(n-1)! * 앞에 존재하는 숫자의 갯수 만큼의 순서가 지나간다.
+        int count = 0;
+        int turn = 0;
+        boolean[] isUsed = new boolean[N+1];
+        for (int j = 1; j <= N; j++) {//자리수를 표현
+            for (int i = 1; i <= N; i++) {//현재 자리 숫자가 몇번째 숫자인지
+                if(K[j - 1] == i){ // 찾으려는 경우의 수 j번째 자리가 몇번 째 인지 체크
+                    turn = turn + factorial(N-j) * count;
+                    System.out.println(count);
+                    count = 0;
+                    isUsed[i] = true;
+                    break;
+                }
+                else if(!isUsed[i]) count++;
+
+            }
+        }
+        return turn;
+    }
+
+    public static int factorial(int N){
+        if(N == 0) return 0;
+        int result = 1;
+        for(int i = N; i > 0; i--){
+            result = result * i;
+        }
+
+        return result;
+    }
+}
